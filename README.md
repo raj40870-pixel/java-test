@@ -23,3 +23,11 @@ The server loads `.env.local` and generates 30 MCQs with Gemini: 10 questions
 from each of Units 1–3. If no API key is configured, it uses the built-in
 question bank; API generation errors are shown instead of silently switching
 to the bank.
+
+## Deploy to Vercel
+
+Import `raj40870-pixel/java-test` into Vercel. In the project's **Settings →
+Environment Variables**, add `GEMINI_API_KEY` for the environments you deploy
+(Production and, if needed, Preview), then redeploy. The `/api/questions`
+serverless function generates the questions without exposing the key to the
+browser. Never commit the key to the repository.
