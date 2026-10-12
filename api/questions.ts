@@ -12,17 +12,17 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   try {
-    const result = await getQuestions();
+    const result = getQuestions();
     res.setHeader('X-Question-Source', result.source);
     res.statusCode = 200;
     res.end(JSON.stringify(result.questions));
   } catch (error) {
-    console.error('Error generating questions:', error);
-    res.statusCode = 502;
+    console.error('Error selecting questions from the bank:', error);
+    res.statusCode = 500;
     res.end(
       JSON.stringify({
-        error: 'Generation failed',
-        message: 'Could not generate questions. Check the Gemini API key, quota, and server logs, then try again.',
+        error: 'Question selection failed',
+        message: 'Could not select questions from the bank. Check the server logs and try again.',
       })
     );
   }

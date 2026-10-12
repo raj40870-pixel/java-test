@@ -1,3 +1,5 @@
+import {additionalQuestions} from './additionalQuestions.js';
+
 export interface Question {
   id: string;
   question: string;
@@ -8,7 +10,7 @@ export interface Question {
   unit: 1 | 2 | 3;
 }
 
-export const questionBank: Question[] = [
+const initialQuestionBank: Question[] = [
   // UNIT 1: Java Basics, Control Flow, Arrays (10 Questions)
   {
     id: "u1_1",
@@ -26,7 +28,7 @@ export const questionBank: Question[] = [
     question: "What is the return type of the hashCode() method in the Object class?",
     options: ["Object", "int", "long", "void"],
     correctIndex: 1,
-    explanation: "The hashCode() method returns an integer representation of the object's memory address."
+    explanation: "hashCode() returns an int hash value; it is not guaranteed to represent an object's memory address."
   },
   {
     id: "u1_3",
@@ -284,4 +286,12 @@ export const questionBank: Question[] = [
     correctIndex: 3,
     explanation: "Classes, methods, and variables can all be marked as final."
   }
+];
+
+export const questionBank: Question[] = [
+  ...initialQuestionBank,
+  ...additionalQuestions.map((question, index) => ({
+    ...question,
+    id: `bank_${index + 1}`,
+  })),
 ];

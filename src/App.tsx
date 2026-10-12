@@ -34,7 +34,7 @@ type View = 'landing' | 'loading' | 'test' | 'result';
 export default function App() {
   const [view, setView] = useState<View>('landing');
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [questionSource, setQuestionSource] = useState<'ai' | 'bank' | null>(null);
+  const [questionSource, setQuestionSource] = useState<'bank' | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>([]);
@@ -61,11 +61,11 @@ export default function App() {
       }
       
       if (!Array.isArray(data) || data.length === 0) {
-        throw new Error('No questions received from AI');
+        throw new Error('No questions received from the question bank');
       }
 
       const source = res.headers.get('X-Question-Source');
-      if (source !== 'ai' && source !== 'bank') {
+      if (source !== 'bank') {
         throw new Error('The server did not identify the question source');
       }
       
@@ -144,7 +144,7 @@ export default function App() {
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-500">
           <span className="flex items-center gap-1.5"><BookOpen className="w-4 h-4" /> Units 1-3</span>
-          <span className="flex items-center gap-1.5"><BrainCircuit className="w-4 h-4" /> AI Powered</span>
+          <span className="flex items-center gap-1.5"><BrainCircuit className="w-4 h-4" /> 246 MCQs</span>
         </nav>
         <div className="flex items-center gap-3">
           <button 
@@ -171,9 +171,9 @@ export default function App() {
                   Crack Your Java Midterm
                 </h1>
                 <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-                  Practice tests based on LPU CAP392 Units 1-3. Gemini generates
-                  fresh questions when configured; otherwise, use the built-in bank.
-                  30 questions (10 per unit) with negative marking.
+                  Practice tests based on LPU CAP392 Units 1-3. Each test randomly
+                  selects 10 questions per unit from our Java question bank, with
+                  negative marking.
                 </p>
               </div>
 
@@ -268,9 +268,7 @@ export default function App() {
                 />
               </div>
               <p className="text-xs text-slate-400" aria-live="polite">
-                {questionSource === 'ai'
-                  ? 'AI-generated questions · 10 from each unit'
-                  : 'Local question bank · 10 from each unit'}
+                {questionSource === 'bank' && 'Random question-bank selection · 10 from each unit'}
               </p>
 
               <div className="flex items-center justify-between text-sm font-medium text-slate-500">

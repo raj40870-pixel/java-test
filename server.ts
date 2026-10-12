@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import {fileURLToPath} from 'url';
-import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,21 +10,16 @@ import {getQuestions} from './src/server/questions.js';
 const app = express();
 app.use(express.json());
 
-dotenv.config({ path: ['.env.local', '.env'] });
-
-app.post('/api/questions', async (req, res) => {
+app.post('/api/questions', (req, res) => {
   try {
-    const result = await getQuestions();
-    if (result.source === 'bank') {
-      console.warn('GEMINI_API_KEY is not configured; serving questions from the local bank.');
-    }
+    const result = getQuestions();
     res.setHeader('X-Question-Source', result.source);
     res.json(result.questions);
   } catch (error) {
-    console.error('Error generating questions:', error);
-    res.status(502).json({
-      error: 'Generation failed',
-      message: 'Could not generate questions. Check the Gemini API key, quota, and server logs, then try again.',
+    console.error('Error selecting questions from the bank:', error);
+    res.status(500).json({
+      error: 'Question selection failed',
+      message: 'Could not select questions from the bank. Check the server logs and try again.',
     });
   }
 });

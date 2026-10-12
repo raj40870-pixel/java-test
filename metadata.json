@@ -1,8 +1,6 @@
 {
   "name": "Java Midterm Master (LPU)",
-  "description": "AI-powered Java midterm preparation for LPU Students (Units 1-3). Features AI-generated questions, timed tests, and negative marking.",
+  "description": "Java midterm preparation for LPU students with 246 randomized MCQs across Units 1-3 and negative marking.",
   "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "majorCapabilities": []
 }
